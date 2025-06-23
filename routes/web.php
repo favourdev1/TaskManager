@@ -20,7 +20,7 @@ Route::middleware([
     Route::resource('tasks', TaskController::class);
     Route::get('/kanban', [TaskController::class, 'kanban'])->name('tasks.kanban');
     Route::patch('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
-    
+
     // Fix for the Kanban board drag and drop
     Route::match(['post', 'patch'], '/tasks/{task}/update-status', [TaskController::class, 'updateStatus'])
         ->name('tasks.update-status')

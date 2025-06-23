@@ -63,7 +63,9 @@
                         <div class="mb-6">
                             <h3 class="text-lg font-semibold mb-2">Description</h3>
                             <div class="bg-gray-50 p-4 rounded-lg">
-                                <p class="whitespace-pre-wrap">{{ $task->description }}</p>
+                                <p class="whitespace-pre-wrap {{ $task->status === 'completed' ? 'text-gray-500' : '' }}">
+                                    {{ $task->description }}
+                                </p>
                             </div>
                         </div>
                     @endif
@@ -82,19 +84,16 @@
                                 </div>
                                 @if($task->due_date)
                                     <div>
-                                        <span class="font-medium text-gray-600">Due Date:</span>
+                                        <span class="font-medium text-gray-600">Due:</span>
                                         <span class="ml-2 {{ $task->isOverdue() ? 'text-red-600 font-semibold' : '' }}">
-                                            {{ $task->due_date->format('M d, Y') }}
-                                            @if($task->isOverdue())
-                                                (Overdue)
-                                            @endif
+                                            {{ $task->getTimeUntilDue() }}
                                         </span>
                                     </div>
                                 @endif
                                 @if($task->completed_at)
                                     <div>
                                         <span class="font-medium text-gray-600">Completed:</span>
-                                        <span class="ml-2 text-green-600">{{ $task->completed_at->format('M d, Y g:i A') }}</span>
+                                        <span class="ml-2 text-green-600">{{ $task->completed_at->diffForHumans() }}</span>
                                     </div>
                                 @endif
                             </div>
@@ -103,26 +102,19 @@
                         @if($task->isOverdue() || $task->due_date)
                             <div>
                                 <h3 class="text-lg font-semibold mb-2">Timeline</h3>
-                                <div class="space-y-2">
-                                    @if($task->due_date)
-                                        @php
-                                            $daysUntilDue = now()->diffInDays($task->due_date, false);
-                                        @endphp
-                                        <div class="p-3 rounded-lg {{ $task->isOverdue() ? 'bg-red-50 border border-red-200' : 'bg-blue-50 border border-blue-200' }}">
-                                            @if($task->isOverdue())
-                                                <p class="text-red-800">
-                                                    <strong>Overdue by {{ abs($daysUntilDue) }} day{{ abs($daysUntilDue) !== 1 ? 's' : '' }}</strong>
-                                                </p>
-                                            @elseif($daysUntilDue === 0)
-                                                <p class="text-orange-800">
-                                                    <strong>Due Today!</strong>
-                                                </p>
-                                            @else
-                                                <p class="text-blue-800">
-                                                    <strong>{{ $daysUntilDue }} day{{ $daysUntilDue !== 1 ? 's' : '' }} remaining</strong>
-                                                </p>
-                                            @endif
-                                        </div>
+                                <div class="p-3 rounded-lg {{ $task->isOverdue() ? 'bg-red-50 border border-red-200' : 'bg-blue-50 border border-blue-200' }}">
+                                    @if($task->status === 'completed')
+                                        <p class="text-green-800">
+                                            <strong>Completed {{ $task->completed_at->diffForHumans() }}</strong>
+                                        </p>
+                                    @elseif($task->isOverdue())
+                                        <p class="text-red-800">
+                                            <strong>{{ $task->getTimeUntilDue() }}</strong>
+                                        </p>
+                                    @else
+                                        <p class="text-blue-800">
+                                            <strong>{{ $task->getTimeUntilDue() }}</strong>
+                                        </p>
                                     @endif
                                 </div>
                             </div>

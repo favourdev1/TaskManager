@@ -26,7 +26,7 @@
             <!-- Search and Filter -->
             <div class="bg-white overflow-hidden border rounded-lg mb-6">
                 <div class="p-4">
-                    <form method="GET" action="{{ route('tasks.kanban') }}" class="flex flex-wrap gap-4">
+                    <form method="GET" action="{{ route('tasks.kanban') }}" class="flex flex-wrap gap-4 text-sm">
                         <div>
                             <input type="text" name="search" placeholder="Search tasks..."
                                    value="{{ request('search') }}"
@@ -88,10 +88,7 @@
                                 <div class="flex justify-between items-center mt-2 text-xs text-gray-500">
                                     @if($task->due_date)
                                         <span class="{{ $task->isOverdue() ? 'text-red-600 font-bold' : '' }}">
-                                            Due: {{ $task->due_date->format('M d') }}
-                                            @if($task->isOverdue())
-                                                (Overdue)
-                                            @endif
+                                            Due {{ $task->getTimeUntilDue() }}
                                         </span>
                                     @else
                                         <span>No due date</span>
@@ -146,10 +143,7 @@
                                 <div class="flex justify-between items-center mt-2 text-xs text-gray-500">
                                     @if($task->due_date)
                                         <span class="{{ $task->isOverdue() ? 'text-red-600 font-bold' : '' }}">
-                                            Due: {{ $task->due_date->format('M d') }}
-                                            @if($task->isOverdue())
-                                                (Overdue)
-                                            @endif
+                                            Due {{ $task->getTimeUntilDue() }}
                                         </span>
                                     @else
                                         <span>No due date</span>

@@ -177,26 +177,26 @@ class TaskController extends Controller
     public function updateStatus(Request $request, Task $task): JsonResponse
     {
         $this->authorize('update', $task);
-        
+
         $request->validate([
             'status' => 'required|in:pending,in_progress,completed',
         ]);
-        
+
         $status = $request->status;
         $oldStatus = $task->status;
-        
+
         // Update task status
         $task->status = $status;
-        
+
         // Set completed_at timestamp when marking as completed
         if ($status === 'completed' && $oldStatus !== 'completed') {
             $task->completed_at = now();
         } elseif ($status !== 'completed') {
             $task->completed_at = null;
         }
-        
+
         $task->save();
-        
+
         return response()->json([
             'success' => true,
             'message' => 'Task status updated successfully',

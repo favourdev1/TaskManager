@@ -92,11 +92,8 @@
                                             @endif
 
                                             @if($task->due_date)
-                                                <p class="text-sm text-gray-500">
-                                                    Due: {{ $task->due_date->format('M d, Y') }}
-                                                    @if($task->isOverdue())
-                                                        <span class="text-red-600 font-semibold">(Overdue)</span>
-                                                    @endif
+                                                <p class="text-sm {{ $task->isOverdue() ? 'text-red-600 font-bold' : 'text-gray-500' }}">
+                                                    Due: {{ $task->getTimeUntilDue() }}
                                                 </p>
                                             @endif
                                         </div>
