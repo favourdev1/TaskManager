@@ -17,8 +17,8 @@
                 <div class="p-6">
                     <form method="GET" action="{{ route('tasks.index') }}" class="flex flex-wrap gap-4">
                         <div>
-                            <input type="text" name="search" placeholder="Search tasks..." 
-                                   value="{{ request('search') }}" 
+                            <input type="text" name="search" placeholder="Search tasks..."
+                                   value="{{ request('search') }}"
                                    class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
                         </div>
                         <div>
@@ -66,7 +66,7 @@
                                                 <h3 class="text-lg font-semibold {{ $task->status === 'completed' ? 'line-through text-gray-500' : '' }}">
                                                     {{ $task->title }}
                                                 </h3>
-                                                <span class="px-2 py-1 text-xs rounded-full 
+                                                <span class="px-2 py-1 text-xs rounded-full
                                                     @if($task->priority === 'high') bg-red-100 text-red-800
                                                     @elseif($task->priority === 'medium') bg-yellow-100 text-yellow-800
                                                     @else bg-green-100 text-green-800
@@ -81,11 +81,11 @@
                                                     {{ ucfirst(str_replace('_', ' ', $task->status)) }}
                                                 </span>
                                             </div>
-                                            
+
                                             @if($task->description)
                                                 <p class="text-gray-600 mb-2">{{ Str::limit($task->description, 100) }}</p>
                                             @endif
-                                            
+
                                             @if($task->due_date)
                                                 <p class="text-sm text-gray-500">
                                                     Due: {{ $task->due_date->format('M d, Y') }}
@@ -95,7 +95,7 @@
                                                 </p>
                                             @endif
                                         </div>
-                                        
+
                                         <div class="flex gap-2 ml-4">
                                             @if($task->status !== 'completed')
                                                 <form method="POST" action="{{ route('tasks.complete', $task) }}" class="inline">
@@ -106,15 +106,15 @@
                                                     </button>
                                                 </form>
                                             @endif
-                                            
+
                                             <a href="{{ route('tasks.show', $task) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm">
                                                 View
                                             </a>
                                             <a href="{{ route('tasks.edit', $task) }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded text-sm">
                                                 Edit
                                             </a>
-                                            
-                                            <form method="POST" action="{{ route('tasks.destroy', $task) }}" class="inline" 
+
+                                            <form method="POST" action="{{ route('tasks.destroy', $task) }}" class="inline"
                                                   onsubmit="return confirm('Are you sure you want to delete this task?')">
                                                 @csrf
                                                 @method('DELETE')
@@ -127,7 +127,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        
+
                         <div class="mt-6">
                             {{ $tasks->withQueryString()->links() }}
                         </div>

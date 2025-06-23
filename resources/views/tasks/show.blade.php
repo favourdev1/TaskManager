@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="flex gap-4 mb-4">
-                            <span class="px-3 py-1 text-sm rounded-full 
+                            <span class="px-3 py-1 text-sm rounded-full
                                 @if($task->priority === 'high') bg-red-100 text-red-800
                                 @elseif($task->priority === 'medium') bg-yellow-100 text-yellow-800
                                 @else bg-green-100 text-green-800
@@ -131,7 +131,7 @@
 
                     <div class="border-t pt-6">
                         <div class="flex justify-between items-center">
-                            <form method="POST" action="{{ route('tasks.destroy', $task) }}" 
+                            <form method="POST" action="{{ route('tasks.destroy', $task) }}"
                                   onsubmit="return confirm('Are you sure you want to delete this task? This action cannot be undone.')">
                                 @csrf
                                 @method('DELETE')

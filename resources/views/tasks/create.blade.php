@@ -16,12 +16,12 @@
                 <div class="p-6">
                     <form method="POST" action="{{ route('tasks.store') }}">
                         @csrf
-                        
+
                         <div class="mb-4">
                             <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
                                 Task Title *
                             </label>
-                            <input type="text" name="title" id="title" 
+                            <input type="text" name="title" id="title"
                                    value="{{ old('title') }}"
                                    class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                                    required>
@@ -46,7 +46,7 @@
                                 <label for="priority" class="block text-sm font-medium text-gray-700 mb-2">
                                     Priority *
                                 </label>
-                                <select name="priority" id="priority" 
+                                <select name="priority" id="priority"
                                         class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                                         required>
                                     <option value="low" {{ old('priority') === 'low' ? 'selected' : '' }}>Low</option>
@@ -62,7 +62,7 @@
                                 <label for="due_date" class="block text-sm font-medium text-gray-700 mb-2">
                                     Due Date
                                 </label>
-                                <input type="date" name="due_date" id="due_date" 
+                                <input type="date" name="due_date" id="due_date"
                                        value="{{ old('due_date') }}"
                                        min="{{ date('Y-m-d') }}"
                                        class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
@@ -73,11 +73,11 @@
                         </div>
 
                         <div class="flex justify-end space-x-4">
-                            <a href="{{ route('tasks.index') }}" 
+                            <a href="{{ route('tasks.index') }}"
                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded">
                                 Cancel
                             </a>
-                            <button type="submit" 
+                            <button type="submit"
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">
                                 Create Task
                             </button>

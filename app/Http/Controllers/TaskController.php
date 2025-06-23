@@ -74,7 +74,7 @@ class TaskController extends Controller
     public function show(Task $task): View
     {
         $this->authorize('view', $task);
-        
+
         return view('tasks.show', compact('task'));
     }
 
@@ -84,7 +84,7 @@ class TaskController extends Controller
     public function edit(Task $task): View
     {
         $this->authorize('update', $task);
-        
+
         return view('tasks.edit', compact('task'));
     }
 
@@ -122,7 +122,7 @@ class TaskController extends Controller
     public function destroy(Task $task): RedirectResponse
     {
         $this->authorize('delete', $task);
-        
+
         $task->delete();
 
         return redirect()->route('tasks.index')
@@ -135,7 +135,7 @@ class TaskController extends Controller
     public function complete(Task $task): RedirectResponse
     {
         $this->authorize('update', $task);
-        
+
         $task->markAsCompleted();
 
         return redirect()->back()

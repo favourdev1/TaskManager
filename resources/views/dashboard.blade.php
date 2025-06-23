@@ -117,7 +117,7 @@
                         <h3 class="text-lg font-semibold">Recent Tasks</h3>
                         <a href="{{ route('tasks.index') }}" class="text-blue-500 hover:text-blue-700">View All</a>
                     </div>
-                    
+
                     @php
                         $recentTasks = auth()->user()->tasks()->latest()->take(5)->get();
                     @endphp
@@ -131,7 +131,7 @@
                                             {{ Str::limit($task->title, 50) }}
                                         </h4>
                                         <div class="flex gap-2 mt-1">
-                                            <span class="px-2 py-1 text-xs rounded 
+                                            <span class="px-2 py-1 text-xs rounded
                                                 @if($task->status === 'completed') bg-green-100 text-green-800
                                                 @elseif($task->status === 'in_progress') bg-blue-100 text-blue-800
                                                 @else bg-gray-100 text-gray-800
