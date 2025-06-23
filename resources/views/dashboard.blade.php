@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-6 text-sm">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Task Overview Cards -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
@@ -98,11 +98,14 @@
                         <a href="{{ route('tasks.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Create New Task
                         </a>
-                        <a href="{{ route('tasks.index') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                            View All Tasks
+                        <a href="{{ route('tasks.kanban') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                            View Kanban Board
+                        </a>
+                        <a href="{{ route('tasks.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                            View List View
                         </a>
                         @if($overdueTasks > 0)
-                            <a href="{{ route('tasks.index', ['status' => 'pending']) }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            <a href="{{ route('tasks.kanban', ['status' => 'pending']) }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                                 View Overdue Tasks
                             </a>
                         @endif

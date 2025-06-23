@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -140,5 +141,65 @@ class TaskController extends Controller
 
         return redirect()->back()
                         ->with('success', 'Task marked as completed!');
+    }
+
+    /**
+     * Display the kanban board view with tasks grouped by status.
+     */
+    public function kanban(Request $request): View
+    {
+        $query = Auth::user()->tasks();
+
+        // Filter by priority if provided
+        if ($request->filled('priority')) {
+            $query->where('priority', $request->priority);
+        }
+
+        // Search by title if provided
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        // Get all tasks matching the criteria
+        $tasks = $query->get();
+
+        // Group tasks by status
+        $pendingTasks = $tasks->where('status', 'pending')->values();
+        $inProgressTasks = $tasks->where('status', 'in_progress')->values();
+        $completedTasks = $tasks->where('status', 'completed')->values();
+
+        return view('tasks.kanban', compact('pendingTasks', 'inProgressTasks', 'completedTasks'));
+    }
+
+    /**
+     * Update task status via AJAX for kanban board drag and drop.
+     */
+    public function updateStatus(Request $request, Task $task): JsonResponse
+    {
+        $this->authorize('update', $task);
+        
+        $request->validate([
+            'status' => 'required|in:pending,in_progress,completed',
+        ]);
+        
+        $status = $request->status;
+        $oldStatus = $task->status;
+        
+        // Update task status
+        $task->status = $status;
+        
+        // Set completed_at timestamp when marking as completed
+        if ($status === 'completed' && $oldStatus !== 'completed') {
+            $task->completed_at = now();
+        } elseif ($status !== 'completed') {
+            $task->completed_at = null;
+        }
+        
+        $task->save();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Task status updated successfully',
+        ]);
     }
 }

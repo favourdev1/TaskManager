@@ -4,13 +4,18 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('My Tasks') }}
             </h2>
-            <a href="{{ route('tasks.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Add New Task
-            </a>
+            <div class="flex space-x-2">
+                <a href="{{ route('tasks.kanban') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    Kanban View
+                </a>
+                <a href="{{ route('tasks.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Add New Task
+                </a>
+            </div>
         </div>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-6 text-sm">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Filters -->
             <div class="bg-white overflow-hidden border sm:rounded-lg mb-6">
