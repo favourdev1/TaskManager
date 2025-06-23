@@ -13,16 +13,16 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Filters -->
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mb-6">
+            <div class="bg-white overflow-hidden border sm:rounded-lg mb-6">
                 <div class="p-6">
                     <form method="GET" action="{{ route('tasks.index') }}" class="flex flex-wrap gap-4">
                         <div>
                             <input type="text" name="search" placeholder="Search tasks..."
                                    value="{{ request('search') }}"
-                                   class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                                   class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md border">
                         </div>
                         <div>
-                            <select name="status" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                            <select name="status" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md border">
                                 <option value="">All Status</option>
                                 <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
                                 <option value="in_progress" {{ request('status') === 'in_progress' ? 'selected' : '' }}>In Progress</option>
@@ -30,7 +30,7 @@
                             </select>
                         </div>
                         <div>
-                            <select name="priority" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                            <select name="priority" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md border">
                                 <option value="">All Priority</option>
                                 <option value="low" {{ request('priority') === 'low' ? 'selected' : '' }}>Low</option>
                                 <option value="medium" {{ request('priority') === 'medium' ? 'selected' : '' }}>Medium</option>
@@ -48,7 +48,7 @@
             </div>
 
             <!-- Tasks List -->
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="bg-white overflow-hidden border sm:rounded-lg">
                 <div class="p-6">
                     @if(session('success'))
                         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">

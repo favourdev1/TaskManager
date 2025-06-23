@@ -17,7 +17,7 @@
                     $overdueTasks = auth()->user()->tasks()->where('due_date', '<', now())->where('status', '!=', 'completed')->count();
                 @endphp
 
-                <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="bg-white overflow-hidden border rounded-lg">
                     <div class="p-5">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
@@ -35,7 +35,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="bg-white overflow-hidden border rounded-lg">
                     <div class="p-5">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="bg-white overflow-hidden border rounded-lg">
                     <div class="p-5">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
@@ -71,7 +71,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="bg-white overflow-hidden border rounded-lg">
                     <div class="p-5">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
@@ -91,7 +91,7 @@
             </div>
 
             <!-- Quick Actions -->
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mb-6">
+            <div class="bg-white overflow-hidden border-xl sm:rounded-lg mb-6">
                 <div class="p-6">
                     <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
                     <div class="flex flex-wrap gap-4">
@@ -111,7 +111,7 @@
             </div>
 
             <!-- Recent Tasks -->
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="bg-white overflow-hidden border-xl sm:rounded-lg">
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-lg font-semibold">Recent Tasks</h3>
