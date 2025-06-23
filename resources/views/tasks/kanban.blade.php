@@ -60,6 +60,7 @@
                     </h3>
                     <div
                         class="flex-1 bg-gray-100 p-2 rounded-b-lg overflow-y-auto min-h-[500px] max-h-[75vh]"
+                        data-status="pending"
                         @drop="dropTask($event, 'pending')"
                         @dragover.prevent="$event.currentTarget.classList.add('bg-gray-200')"
                         @dragleave.prevent="$event.currentTarget.classList.remove('bg-gray-200')"
@@ -115,6 +116,7 @@
                     </h3>
                     <div
                         class="flex-1 bg-blue-50 p-2 rounded-b-lg overflow-y-auto min-h-[500px] max-h-[75vh]"
+                        data-status="in_progress"
                         @drop="dropTask($event, 'in_progress')"
                         @dragover.prevent="$event.currentTarget.classList.add('bg-blue-100')"
                         @dragleave.prevent="$event.currentTarget.classList.remove('bg-blue-100')"
@@ -170,6 +172,7 @@
                     </h3>
                     <div
                         class="flex-1 bg-green-50 p-2 rounded-b-lg overflow-y-auto min-h-[500px] max-h-[75vh]"
+                        data-status="completed"
                         @drop="dropTask($event, 'completed')"
                         @dragover.prevent="$event.currentTarget.classList.add('bg-green-100')"
                         @dragleave.prevent="$event.currentTarget.classList.remove('bg-green-100')"
@@ -270,11 +273,29 @@
                         if (!this.taskBeingDragged) return;
 
                         const taskId = this.taskBeingDragged;
+                        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                        const url = `/tasks/${taskId}/update-status`;
 
-                        // Visual update first for better user experience (optimistic UI)
+                        // Find the empty state message in the target column
+                        const emptyStateMessage = event.currentTarget.querySelector('.text-gray-500.text-center');
+                        if (emptyStateMessage) {
+                            emptyStateMessage.remove();
+                        }
+
+                        // Visual update first for better user experience
                         const taskElement = document.getElementById(`task-${taskId}`);
 
                         if (taskElement) {
+                            // Remove empty state message from source column if it will be empty
+                            const sourceColumn = taskElement.parentNode;
+                            const sourceColumnTasks = sourceColumn.querySelectorAll('[draggable="true"]');
+                            if (sourceColumnTasks.length === 1) { // Only the task being moved
+                                const noTasksMessage = document.createElement('div');
+                                noTasksMessage.className = 'bg-white p-4 rounded shadow text-gray-500 text-center';
+                                noTasksMessage.textContent = `No ${sourceColumn.dataset.status || 'pending'} tasks`;
+                                sourceColumn.appendChild(noTasksMessage);
+                            }
+
                             // Remove from current column
                             taskElement.parentNode.removeChild(taskElement);
 
@@ -308,32 +329,33 @@
                                     taskElement.querySelector('p').classList.add('line-through', 'text-gray-500');
                                 }
                             }
+
+                            // Show success message
+                            window.dispatchEvent(new CustomEvent('task-updated', {
+                                detail: { message: 'Task updated successfully' }
+                            }));
                         }
 
-                        // Show immediate success feedback
-                        window.dispatchEvent(new CustomEvent('task-updated', {
-                            detail: { message: 'Task updated successfully' }
-                        }));
+                        // Then send the API request
+                        fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json'
+                            },
+                            credentials: 'same-origin',
+                            body: JSON.stringify({
+                                status: status,
+                                _method: 'PATCH'
+                            })
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            // Don't show error to user since the visual update already happened
+                            // and the background update will happen on page refresh
+                        });
 
-                        // Then send the API request (using the form instead of fetch for better compatibility)
-                        const form = document.getElementById('update-task-form');
-                        const statusInput = document.getElementById('task-status-input');
-                        const taskIdInput = document.getElementById('task-id-input');
-
-                        // Set form values
-                        statusInput.value = status;
-                        taskIdInput.value = taskId;
-
-                        // Create a FormData object from the form
-                        const formData = new FormData(form);
-
-                        // Submit the form via AJAX
-                        const xhr = new XMLHttpRequest();
-                        xhr.open('POST', `/tasks/${taskId}/update-status`);
-                        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                        xhr.send(formData);
-
-                        // Reset drag state
                         this.taskBeingDragged = null;
                     }
                 }

@@ -101,9 +101,9 @@
                         <a href="{{ route('tasks.kanban') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                             View Kanban Board
                         </a>
-                        <a href="{{ route('tasks.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                        {{-- <a href="{{ route('tasks.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                             View List View
-                        </a>
+                        </a> --}}
                         @if($overdueTasks > 0)
                             <a href="{{ route('tasks.kanban', ['status' => 'pending']) }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                                 View Overdue Tasks
