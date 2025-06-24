@@ -1,13 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center text-sm">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Task Board') }}
             </h2>
             <div class="flex space-x-2">
-                <a href="{{ route('tasks.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                {{-- <a href="{{ route('tasks.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                     List View
-                </a>
+                </a> --}}
                 <a href="{{ route('tasks.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Add New Task
                 </a>
@@ -15,7 +15,7 @@
         </div>
     </x-slot>
 
-    <div class="py-6 text-sm" x-data="kanbanBoard()">
+    <div class="py-3 text-sm" x-data="kanbanBoard()">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @if(session('success'))
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
@@ -24,16 +24,16 @@
             @endif
 
             <!-- Search and Filter -->
-            <div class="bg-white overflow-hidden border rounded-lg mb-6">
+            <div class="bg-white overflow-hidden border rounded-lg  mb-3">
                 <div class="p-4">
                     <form method="GET" action="{{ route('tasks.kanban') }}" class="flex flex-wrap gap-4 text-sm">
-                        <div>
+                        <div class="w-1/3">
                             <input type="text" name="search" placeholder="Search tasks..."
                                    value="{{ request('search') }}"
-                                   class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md border">
+                                   class="border-gray-300 w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md border text-sm">
                         </div>
                         <div>
-                            <select name="priority" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md border">
+                            <select name="priority" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md border text-sm">
                                 <option value="">All Priority</option>
                                 <option value="low" {{ request('priority') === 'low' ? 'selected' : '' }}>Low</option>
                                 <option value="medium" {{ request('priority') === 'medium' ? 'selected' : '' }}>Medium</option>
@@ -53,13 +53,13 @@
             <!-- Kanban Board -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Pending Column -->
-                <div class="flex flex-col h-full">
-                    <h3 class="font-bold text-lg bg-gray-200 p-3 rounded-t-lg flex justify-between items-center">
-                        <span>Pending</span>
+                <div class="flex flex-col h-full border  border-gray-300 rounded-lg  overflow-hidden">
+                    <h3 class="font-bold text-lg bg-gray-200 p-3 rounded-t-lg  border border-gray-300 flex justify-between items-center">
+                        <span class="text-sm">Pending</span>
                         <span class="bg-gray-500 text-white text-xs px-2 py-1 rounded-full">{{ count($pendingTasks) }}</span>
                     </h3>
                     <div
-                        class="flex-1 bg-gray-100 p-2 rounded-b-lg overflow-y-auto min-h-[500px] max-h-[75vh]"
+                        class="flex-1 bg-gray-100 p-2 rounded-b-lg overflow-y-auto min-h-[65vh] max-h-[80vh]"
                         data-status="pending"
                         @drop="dropTask($event, 'pending')"
                         @dragover.prevent="$event.currentTarget.classList.add('bg-gray-200')"
@@ -101,7 +101,7 @@
                                 </div>
                             </div>
                         @empty
-                            <div class="bg-white p-4 rounded shadow text-gray-500 text-center">
+                            <div class="text-sm bg-white p-4 rounded shadow text-gray-500 text-center">
                                 No pending tasks
                             </div>
                         @endforelse
@@ -109,9 +109,9 @@
                 </div>
 
                 <!-- In Progress Column -->
-                <div class="flex flex-col h-full">
-                    <h3 class="font-bold text-lg bg-blue-200 p-3 rounded-t-lg flex justify-between items-center">
-                        <span>In Progress</span>
+                <div class="flex flex-col h-full border border-blue-300  overflow-hidden rounded-lg">
+                    <h3 class="font-bold text-lg bg-blue-200 p-3  border border-blue-300  rounded-t-lg flex justify-between items-center">
+                        <span class="text-sm">In Progress</span>
                         <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">{{ count($inProgressTasks) }}</span>
                     </h3>
                     <div
@@ -157,7 +157,7 @@
                                 </div>
                             </div>
                         @empty
-                            <div class="bg-white p-4 rounded shadow text-gray-500 text-center">
+                            <div class="text-sm bg-white p-4 rounded shadow text-gray-500 text-center">
                                 No in-progress tasks
                             </div>
                         @endforelse
@@ -165,9 +165,9 @@
                 </div>
 
                 <!-- Completed Column -->
-                <div class="flex flex-col h-full">
-                    <h3 class="font-bold text-lg bg-green-200 p-3 rounded-t-lg flex justify-between items-center">
-                        <span>Completed</span>
+                <div class="flex flex-col h-full border border-green-400  overflow-hidden rounded-lg">
+                    <h3 class="font-bold text-lg bg-green-200 p-3 rounded-t-lg border border-green-400  flex justify-between items-center">
+                        <span class="text-sm">Completed</span>
                         <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full">{{ count($completedTasks) }}</span>
                     </h3>
                     <div
@@ -211,7 +211,7 @@
                                 </div>
                             </div>
                         @empty
-                            <div class="bg-white p-4 rounded shadow text-gray-500 text-center">
+                            <div class="text-sm bg-white p-4 rounded shadow text-gray-500 text-center">
                                 No completed tasks
                             </div>
                         @endforelse
