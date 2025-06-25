@@ -26,3 +26,31 @@ Route::middleware([
         ->name('tasks.update-status')
         ->middleware('web');
 });
+
+
+Route::get('/run-migrate', function () {
+    Artisan::call('migrate');
+    $msg = Artisan::output();
+
+    return response()->json([
+        'migrations' => $msg,
+    ]);
+});
+
+Route::get('/run-migrate-rollback', function () {
+    Artisan::call('migrate:rollback');
+    $msg = Artisan::output();
+
+    return response()->json([
+        'migrations' => $msg,
+    ]);
+});
+
+Route::get('/run-seed', function () {
+    Artisan::call('db:seed');
+    $msg = Artisan::output();
+
+    return response()->json([
+        'migrations' => $msg,
+    ]);
+});
